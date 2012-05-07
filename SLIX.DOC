@@ -1,0 +1,678 @@
+.--------------------------------------------------------------.
+|                         .------------.                       |
+|                         | slix 0.987 |                       |
+|                         `------------'                       |
+|                                                              |
+|                  sprite library for mode x                   |
+|                  (and other tweaked modes)                   |
+|              Full QuickBASIC source code included            |
+|                                                              |
+|                     Written by Lloyd Chang                   |
+|                         August 10, 1996                      |
+|                                                              |
+|                  FREEWARE, NOT PUBLIC DOMAIN!                |
+|                                                              |
+`--------------------------------------------------------------'
+
+   #########################################################
+   # DISCLAIMER: USE slix AT YOUR OWN RISK!                #
+   #             The author is not liable for any problems #
+   #             that may result from the use of slix.     #
+   #                                                       #
+   #########################################################
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% slix is FREEWARE.  The program may be freely distributed    %
+% under the condition that the author be given credit for     %
+% slix.  Modifications are encouraged.                        %
+% Feel free to contact me if modifications are made to any    %
+% part of slix.                                               %
+%                                                             %
+% There are currently no other restrictions with regard to    %
+% the use of slix.                                            %
+%                                                             %
+%     **************************************************      %
+%     * PLEASE READ THE DISCLAIMER BEFORE YOU USE slix *      %
+%     **************************************************      %
+%                                                             %
+% I can be reached via:                                       %
+%                                                             %
+% Internet: lloyd.chang@tglbbs.com (!!The Game Line!!)        %
+%  Fidonet: Lloyd Chang [1:278/304] (BlueDog)                 %
+%                                                             %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+----------------------------------------------------------------
+
+Some people to thank...(in alphabetical order)
+
+Michael Abrash -- For documenting Mode X in Dr. Dobb's Journal
+                  [mabrash@bix.com]
+                  [mabrash@mcimail.com]
+
+Phil Carlisle -- Mode X FAQ
+                 [pc@espr.demon.co.uk]
+
+Carl Gorringe -- For showing interest in slix
+
+Rich Geldreich -- Original GIF-displaying code
+
+Themie Gouthas -- XLIB
+                  [egg@dstos3.dsto.gov.au]
+                  [teg@bart.dsto.gov.au]
+
+Petri Hassinen -- Game Making Utilities
+                  [phassine@alpha.hut.fi]
+
+Petri Hodju -- Game Making Utilities
+
+Saku Jalkanen -- Game Making Utilities (GRAPHICS)
+
+Christopher G. Mann -- ASPHYXIA VGA trainer series
+(a.k.a. Snowman)       [r3cgm@dax.cc.uakron.edu]
+
+Robert Schmidt -- XINTRO & Tweak
+(a.k.a. Buuud)    [robert@stud.unit.no]
+
+Dave Shea -- For showing interest in slix
+
+Grant Smith      -- ASPHYXIA VGA trainer series
+(a.k.a. Denthor)    [smith9@batis.bis.und.ac.za]
+
+Nikolai Soumarokov -- GNOOM II
+
+Mike Valley -- Retrieving Mode X related info
+               Numerous programming tips
+
+[zabudsk@ecf.utoronto.ca] -- Original BMP-displaying code
+(Sorry, I should have contacted you for your real name)
+
+Others -- Sorry if your name was not listed...
+          Anyway, thanks!
+
+(I hope everyone's name was spelled correctly.)
+
+If anyone above wish to have their internet e-mail address(es)
+listed in this document, please contact me.
+
+Also, please contact me if I forgot to
+include someone's name in the above list.
+
+---------------------------------------------------------------
+
+slix contains two other FREEWARE packages.
+They are GNOOM II & Game Making Utilities.  GNOOM II may be used to
+create GN2 files.  Game Making Utilities is included as a token of thanks
+for the use of GMU images in slix.  I have not yet made any contacts
+with either authors of GNOOM II or GMU.  Hopefully, Nikolai Soumarokov
+and Petri Hassinen, respectively, will not be offended by the inclusion
+of their programs.
+
+----------------------------------------------------------------
+
+                 $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+                 $$                          $$
+                 $$ COMPILING SPEEDS UP slix $$
+                 $$                          $$
+                 $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+
+
+.---------------------------.
+| BUGS, BUGS, and more BUGS |
+`---------------------------'
+
+slix is TOO SLOW!!!  Optimizations are needed.
+  The best bet would be to link in ASSEMBLY code from XLIB.
+  (Someone would have to write "DECLARE ..." for each XLIB routine)
+  If that occurs, the development of slix may stop.
+
+INKEY$ should be replaced with a better key-retrieving function.
+  I am thinking of writing a function named "KEYIN$" by using
+  PEEKs.  Hopefully, Multiple-key presses (ctrl+key1, shift+key1,
+  alt+key1, & KEY1+KEY2+KEY3) will be supported.  I have yet seen
+  a QuickBASIC routine that supports KEY1+KEY2+KEY3.  However,
+  key-combos retrieval should be possible by manipulating the
+  keyboard buffer.
+
+Virtual scrolling, background scrolling, & split-screen
+routines have not been written for slix.
+  There are plenty of ASM/C sources available to
+  port to QuickBASIC.
+
+Collision tests have not been written.
+
+3D animation have not been written either.
+  I would recommend people to convert ASM/C code
+  from Michael Abrash's XSHARP pacakge.
+
+There is only a 5x5 font available.  It is possible to
+use fonts from DOS (8x8, 8x14, 8x16) via interrupts.
+  There are QuickBASIC code available to do this but
+  I have not yet implemented them.
+
+24-bit BMP files are not be displayed properly.
+  (The red and blue color bits are reversed)
+
+When displaying images that are greater than the screen size,
+the FILEX parameter "UseZero%" may to be set to 1.
+  (For example, FILEX "filename.ext", 0, 0, 1, 0)
+
+A GIF/BMP to HR8 FILE CONVERTER HAS BEEN WRITTEN.
+  The source code is within the file "2HR8.BAS"
+  Currently, I have not written a program to convert
+  a HR8 file back to a GIF/BMP file.
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!!                                                     !!
+!! slix displays HR8s MUCH FASTER than GIFs and BMPs   !!
+!! (see note above about the GIF/BMP to HR8 converter) !!
+!!                                                     !!
+!!                                                     !!
+!! The GIF-displaying routine is somewhat slow         !!
+!!                                                     !!
+!! The BMP-displaying routine is REALLY slow           !!
+!!                                                     !!
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+&                                                              &
+&  The "DEFAULT.PAL" file in GN2-SLIX.ZIP needs to be used in  &
+&  place of the GNOOM II "DEFAULT.PAL" to create sprites with  &
+&  colors that correspond to the palette in "RGB.PAL"          &
+&                                                              &
+&  In otherwords, replace the "DEFAULT.PAL" in GN2V102.ZIP     &
+&  with the "DEFAULT.PAL" in GN2-SLIX.ZIP                      &
+&                                                              &
+&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+
+
+|~~~~~~~~~~~~~|
+| Q&A Session |
+|_____________|
+
+  Q: What is the diffrence between Objects & Sprites?
+  A: Sprites are the loaded GN2 files (which currently
+     can not exceed 4K, and should not have more than
+     15 frames).
+     Objects are the moving things on the screen.
+     Objects rely upon the data contained in the sprites.
+     5 Objects can share 1 sprite file (GN2 file); but
+     1 Object can not share 5 sprite files.
+     I KNOW THE DIFFERENCE BETWEEN OBJECTS AND SPRITES
+     ARE CONFUSING.  SORRY.
+     Just remember, remember the object number, and
+     forget about the sprite number.
+     (UNLESS you wish to do modifications to slix)
+
+  Q: How do I share a sprite between 2 objects?
+  A: For example, to share the sprite in Object 4
+     with Object 5...Use: "Object(5) = Object(4)"
+     IT'S THAT SIMPLE!
+     SHARING SPRITES SAVES MEMORY.
+
+  Q: Are there any other QuickBASIC sprite packages?
+  A: I'm sure there are plenty.  slix is was not written
+     as a CURE-ALL.  I wrote slix to learn about tweaked
+     modes.  If you don't like a part of slix, make your
+     own modifications.  However, I'd be appreciated if you
+     would contact me about any modifications you've made
+     so that I can include them in future releases of slix.
+
+  Q: Why do the sprites I created with GNOOM II
+     appear with different colors in slix?
+  A: Try replacing the "DEFAULT.PAL" that comes with
+     GNOOM II with the "DEFAULT.PAL" file in GN2-SLIX.ZIP
+
+----------------------------------------------------------------
+
+slix's FUNCTIONs and SUBs:
+
+
+      Name: BIN$ (FUNCTION)
+Parameters: Number&
+     Usage: Result$ = BIN$()
+
+BIN$ converts a long integer into its binary
+equivalent (stored as a string).
+
+
+      Name: BIND& (FUNCTION)
+Parameters: Number$
+     Usage: Result& = BIND&("10011101")
+
+BIND& converts a binary number (stored as a string)
+into its long integer equivalent.
+
+
+      Name: ClearPage (SUB)
+Parameters: [none]
+     Usage: ClearPage
+
+ClearPage clears the active page.
+
+
+      Name: COLOUR (SUB)
+Parameters: DUMMY%
+     Usage: COLOUR 255
+
+COLOUR changes the color of the GPRINT sub-routine.
+The actual color depends upon the color
+attributes stored in the file "RGB.PAL."
+
+
+      Name: DrawFrame (SUB)
+Parameters: SpriteNum%, FrameNum%, XCord%, YCord%
+     Usage: DrawFrame 0, 0, 0, 0
+
+DrawFrame IS CALLED BY ReadyFrame.
+***********************************************
+* DrawFrame SHOULD NOT BE USED INDEPENDENTLY. *
+***********************************************
+
+SpriteNum% = Sprite Number (0 to 7)
+FrameNum% = Frame Number (0 to 15)
+XCord% = X coordinate
+YCord% = Y coordinate
+
+
+      Name: FILEX (SUB)
+Parameters: filename$, XCord%, YCord%, UseZero%, Center%
+     Usage: FILEX "PICTURE.HR8", 0, 0, 0, 0
+
+FILEX loads a file (HR8 or BMP format),
+and draws it onto the active page.
+XCord% is the X coordinate of the
+upper-left corner of the picture.
+YCord% is the Y coordinate of the
+upper-left corner of the picture.
+UseZero% = 0 makes the picture masked (any pixel
+in the picture with a color 0 will not be drawn).
+UseZero% = 1 will draw the entire picture onto
+the active page (and overwriting the background).
+Center% = 1 centers the picture (and ignores the
+values in XCord% and YCord%).
+
+
+      Name: GETX% (FUNCTION)
+Parameters: XCord%, YCord%
+     Usage: Result% = GETX%(0,0)
+
+GETX% gets the pixel color at the coordinates
+(XCord%, YCord%) on the active page.
+
+
+      Name: GPRINT (SUB)
+Parameters: DUMMY$
+     Usage: GPRINT "Hello, world!"
+
+GPRINT prints 5 by 5 pixels characters onto
+the active screen.  The color of GPRINT
+characters can be set via the COLOUR
+sub-routine.  CursorX% designates the current
+horizontal position of the cursor.  CursorY%
+designates the current vertical position of
+the cursor.  The lowest value CursorX% and
+CursorY% can be is zero.  Both integers are
+also global variables.
+
+
+      Name: inport$ (FUNCTION)
+Parameters: Addr&
+     Usage: Result$ = inport$(&HFFFE&)
+
+inport$ gets a WORD (2 bytes) from the port
+number stored in Addr&.  The port &HFFFF&
+(65535) can not be used with this function.
+Use "Result$ = HEX$(INP(&HFFFF&))" instead.
+
+
+      Name: LoadBG (SUB)
+Parameters: filename$, headersize%
+     Usage: LoadBG "PICTURE.HR8", 4
+
+LoadBG should only be used to store a
+background picture in the memory (for screen
+modes with 2 pages or less).  This is best
+suited for picture displaying programs at
+high resolutions (512x512, 400x600, etc.)
+Please note that "DIM Background#s"
+must be enabled when using this sub-routine.
+This sub-routine is very time consuming
+and somewhat of a waste of memory.
+The allocation of memory via the DOS
+interrupts may be implemented in the future.
+
+
+      Name: LoadCharSet (SUB)
+Parameters: [none]
+     Usage: LoadCharSet
+
+LoadCharSet opens up the file "5x5chars.map"
+and loads the character set into an array.
+
+
+      Name: LoadSprites (SUB)
+DECLARE SUB LoadSprites (filename$, SpriteNum%)
+Parameters: filename$, SpriteNum%
+
+DEFINITION: Sprite = Loaded GN2 sprite
+            Object = Animated sprite
+                    (the moving things on the screen)
+filename$ = GN2 filename
+SpriteNum% = Use "Object(#)" where # ranges
+             from 0 to 15.
+
+
+      Name: memset (SUB)
+Parameters: Segment&, Addr&, BYTE%, Size&
+     Usage: memset &HA000&, 0, 0, &H10000&
+
+memset fills a certain range in memory with
+the same character.  Segment& is the segment
+the range of memory is in.  Addr& is the
+starting address.  BYTE% is the ASCII number
+of the character.  Size& is the size of the
+range of memory.
+
+
+      Name: outport (SUB)
+Parameters: Addr&, WORD&
+     Usage: outport &HFFFE&
+
+output puts a WORD (2 bytes) in the port
+number stored in Addr&.  The port &HFFFF
+(65535) can not be used with this function.
+Use "OUT &HFFFF&, BYTE%" instead.
+
+
+      Name: PageCopy (SUB)
+Parameters: FromPage%, ToPage%
+     Usage: PageCopy 1, 0
+
+PageCopy copies the image on page FromPage%
+to page ToPage%.  The number of pages
+available depends on the mode currently in
+use.  If possible, PAGEFLIP should be used
+in place of PageCopy (except in the case
+of copying the background page onto the
+active page).
+
+
+      Name: PAGEFLIP (SUB)
+Parameters: [none]
+     Usage: PAGEFLIP
+
+PAGEFLIP flips the current visible page
+to the active page.  It also changes
+VisiblePage% to ActivePage%.  ActivePage%
+is then changed to the next available page
+number.  This sub-routine is not desirable
+on modes with 2 pages (due to possible
+flicker).  This sub-routine does not work
+properly on modes with 1 page.
+
+
+      Name: PSETX (SUB)
+Parameters: XCord%, YCord%, PixelColor%
+     Usage: PSETX 0, 0, 255
+
+PSETX draws a pixel at coordinates
+(XCord%, YCord%) with the colour PixelColor%
+from the palette in the file RGB.PAL
+
+
+      Name: PUTBG (SUB)
+Parameters: [none]
+     Usage: PUTBG
+
+PUTBG simply draws the image stored via
+LoadBG onto the active page.
+
+
+      Name: PUTX (SUB)
+Parameters: XCord%, YCord%, XSize%, YSize%, Buffer$, UseZero%
+     Usage: PUTX 0, 0, 80, 80, Something$, 0
+
+PUTX IS USED BY THE SUB-ROUTINE FILEX.
+PUTX puts (the portion of) the image
+stored in "Buffer$" onto the screen.
+PUTX SHOULD NOT BE INVOKED BY ANY
+ROUTINE OTHER THAN FILEX (due to the
+way PUTX was written).
+
+
+      Name: ReadyFrame (SUB)
+Parameters: Object%, Repeat%, Direction%, SX%, SY%, EX%, EY%
+     Usage: ReadyFrame 0, 0, 1, 0, 0, 100, 100
+
+ReadyFrame IS CALLED BY SetObject.
+************************************************
+* ReadyFrame SHOULD NOT BE USED INDEPENDENTLY. *
+************************************************
+
+Object% = Object Number (0 to 15)
+Repeat% = Repeater (to slow down sprites)
+Direction% = 0 or LESS (1 frame)
+             (A NEGATIVE sign designates
+             the only frame number to be
+             used)
+             1 (shuffles frames forward)
+             2 (shuffles frames backward)
+SX% = Starting X coordinate
+SY% = Starting Y coordinate
+EX% = Ending X coordinate
+EY% = Ending Y coordinate
+
+
+      Name: FreeObject (SUB)
+Parameters: ObjectNumber%
+     Usage: FreeObject 1
+
+FreeObject frees an object up for
+future uses.  FreeObject also frees
+up the sprite slot (which the object
+uses) if the sprite is not currently
+shared by other objects.
+
+
+      Name: RGBLoad (SUB)
+Parameters: [none]
+     Usage: RGBLoad
+
+RGBLoad loads the file "RGB.PAL" into
+the palette.  This sub-routine is
+automatically called by the VGA
+sub-routine.  The speed of palette
+loading may be improved in the
+future.
+
+      Name: RGBSave (SUB)
+Parameters: [none]
+     Usage: RGBSave
+
+RGBSave creates a file "RGB.PAL" in
+the current directory.  "RGB.PAL" is
+to be used with the sub-routine
+RGBLoad.  This routine is only
+necessary if "RGB.PAL" is not present
+in the current directory or if
+"RGB.PAL" is corrupted.
+
+
+      Name: SBR& (FUNCTION)
+Parameters: DWORD&, Shifter%
+     Usage: Result& = SBR&(313, 2)
+
+SBR& shifts a number to the right
+by a certain number of BITS.
+
+
+      Name: SBL& (FUNCTION)
+Parameters: DWORD&, Shifter%
+     Usage: Result& = SBL&(313, 2)
+
+SBR& shifts a number to the left
+by a certain number of BITS.
+
+
+      Name: SetActivePage (SUB)
+Parameters: PAGE%
+     Usage: SetActivePage 0
+
+SetActivePage sets the active page
+to the page number designated by
+PAGE%.
+
+      Name: SetActiveStart (SUB)
+Parameters: offset&
+     Usage: SetActiveStart 0
+
+SetActiveStart SHOULD NOT BE USED
+DIRECTLY because SetActivePage
+automatically sets the starting
+offset of the active page.
+
+
+      Name: SetObject (SUB)
+Parameters: Object%, Repeat%, Direction%, SX%, SY%, EX%, EY%
+     Usage: SetObject 0, 0, 1, 0, 0, 100, 100
+
+SetObject prepares an object for sprite
+usage.  slix supports the simultaneous
+loading of 8 sprites, but slix can
+animate up to 16 objects (at this time).
+
+Object% = Object Number (0 to 15)
+Repeat% = Repeater (to slow down sprites)
+Direction% = 0 or LESS (1 frame)
+             (A NEGATIVE sign designates
+             the only frame number to be
+             used)
+             1 (shuffles frames forward)
+             2 (shuffles frames backward)
+SX% = Starting X coordinate
+SY% = Starting Y coordinate
+EX% = Ending X coordinate
+EY% = Ending Y coordinate
+
+
+      Name: SetVisiblePage (SUB)
+Parameters: PAGE%
+     Usage: SetActivePage 0
+
+SetVisiblePage sets the visible page
+to the page number designated by
+PAGE%.
+
+      Name: SetActiveStart (SUB)
+Parameters: offset&
+     Usage: SetActiveStart 0
+
+SetVisibleStart SHOULD NOT BE USED
+DIRECTLY because SetVisiblePage
+automatically sets the starting
+offset of the active page.
+
+
+      Name: VGA (SUB)
+Parameters: ModeName$
+     Usage: VGA "320x200x256"
+
+VGA sets the current screen
+mode to the desirable
+UNCHAINED/PLANAR MODE.
+================================
+ Currently supported modes are:
+================================
+   256 by 200/224/240/256/400/480 by 256 colors
+   320 by 200/240/400/480 by 256 colors
+   360 by 200/240/270/360/400/480 by 256 colors
+   376 by 282/308/564 by 256 colors
+   400 by 300/600 by 256 colors
+   (See the source file for information
+   regarding the number of pages in
+   each mode).
+
+
+      Name: WaitRetrace (SUB)
+Parameters: [none]
+     Usage: WaitRetrace
+
+WaitRetrace waits until the video
+card is in a vertical retrace.
+This prevents flickers from
+occurring.
+
+
+      Name: WARNING (SUB)
+Parameters: [none]
+     Usage: WARNING
+
+WARNING displaying a warning regarding
+the possible consequences of using
+slix (as well as hardware
+recommendations).
+
+
+----------------------------------------------------------------
+
+slix's global variables:
+
+slixVERSION% = slix's version number
+               Actual version number is: (slixVERSION% * 0.001)
+
+slixDATE$ = slix's release date
+
+CursorX% = Horizontal cursor position of 5x5 characters
+
+CursorY% = Vertical cursor position of 5x5 characters
+
+CurrentColour% = Current color of the 5x5 font
+                 (Range: 0 to 255)
+
+VGAWidth% = The number of horizontal pixels of the
+            current tweaked mode
+
+VGAHeight% = The number of vertical pixels of the
+             current tweaked mode
+
+VGAWidthBytes% = (VGAWidth% / 4)
+                 (Every four pixels shares one byte)
+
+ActivePage% = Active page number
+
+VisiblePage% = Visible page number
+
+TotalPages% = Total number of pages
+              (Rounded down to the nearest integer)
+
+ActiveStart& = Starting offset of the active page
+
+VisibleStart& = Starting offset of the visible page
+
+ModeName$ = The name of the current screen mode
+
+AfterActiveEnd& = The first offset after the current
+                  active page
+
+BGOn% = (0 turns LoadBG/PutBG off)
+        (1 turns LoadBG/PutBG on)
+
+BGWidth% = Background width (for LoadBG/PutBG)
+
+BGHeight% = Background height (for LoadBG/PutBG)
+
+BGSize& = Background size (in bytes)
+          (BGWidth% * BGHeight%)
+          (for LoadBG/PutBG)
+
+ReservedPage% = Reserved page number
+                (Set this number to the video page
+                 where the background is stored)
+                (Use this if LoadBG/PutBG is disabled)
+
+UseReservedPage% = (1 tells slix to not use the
+                    reserve page as an active
+                    or a visible page)
+
+----------------------------------------------------------------

@@ -1,0 +1,101 @@
+<-----------------  ^
+                    |
+|   File Manifest   |
+|                  
+V  ----------------->
+
+
+256x200.HR8     Astronaut picture
+                (256x200 -- HR8 format)
+
+2HR8.BAS        HR8 to BMP/GIF file converter
+                (QuickBASIC source)
+
+2HR8.EXE        HR8 to BMP/GIF file converter
+                (executable)
+
+320x200.BMP     Astronaut picture
+                (320x200 -- BMP format)
+
+320x200.GIF     Astronaut picture
+                (320x200 -- GIF format)
+
+320x200.HR8     Astronaut picture
+                (320x200 -- HR8 format)
+
+5x5chars.map    5x5 character-map file
+
+BRUN45.EXE      QuickBASIC 4.5 Run-time library
+
+CHARM100.ZIP    5x5 character mapper
+
+DEGIF6.ZIP      Rich Geldreich's original
+                GIF-displaying code
+
+FILES.TXT       File manifest
+                (The file you are reading now)
+
+FILE_ID.DIZ     File identifier/descriptor
+
+GMUTILS.ZIP     GAME MAKING UTILITIES for DOS
+                First Release (June, 1995)
+                by Petri Hassinen
+
+GN2V102.ZIP     GNOOM II version 1.02 - June 1995
+                Copyright (c) by Nikolai Soumarokov
+                A sprite editor; used to create
+                GN2 files
+
+GN2-SLIX.ZIP    contains DEFAULT.PAL to be used
+                with GNOOM II (or else the sprites
+                created by GNOOM II will have the
+                wrong colors under SLIX)
+
+GNOOM2.GN2      GNOOM II (GN2 file)
+                Drawn by Nikolai Soumarokov
+
+MODEX.ZIP       Mode-X FAQ (October 2, 1994)
+                Maintained by Phil Carlisle
+
+RAW100.ZIP      24-bit to 8-bit RAW file converter
+
+READBMP.ZIP     [zabudsk@ecf.utoronto.ca]'s original
+                BMP-displaying code
+
+RGB.PAL         RGB Palette file
+                (Created by the RGBSave sub-routine)
+
+SHIP.GN2        A space ship (in blue shades)
+                Drawn by Lloyd Chang
+
+slix.DOC        Documentation for slix
+
+slix.VER        Information regarding different
+                versions of slix
+
+slix0987.BAS    slix version 0.987 (QuickBASIC source)
+
+slix0987.EXE    slix version 0.987 (executable)
+
+SOL07.GN2       A sprite of a soldier walking
+                (7 frames)
+                Drawn by Saku Jalkanen
+                Ported to GN2 format by Lloyd Chang
+
+SOL14.GN2       A sprite of a soldier walking
+                (14 frames)
+                Drawn by Saku Jalkanen
+                Ported to GN2 format by Lloyd Chang
+
+VGADM5.ZIP      The ASPHYXIA VGA demo trainer series
+                Part 5: Scrollers
+                Created by Robert Schmidt
+                and Christopher G. Mann
+
+VGADM10.ZIP     The ASPHYXIA VGA demo trainer series
+                Part 10: Chain-4
+                Created by Robert Schmidt
+                and Christopher G. Mann
+
+XINTRO18.ZIP    Intro to Mode X version 1.8
+                Author: Robert Schmidt
